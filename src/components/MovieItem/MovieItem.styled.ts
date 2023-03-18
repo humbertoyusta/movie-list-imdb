@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export const MovieCard = styled(motion.div)`
     width: calc(25% - 20px);
@@ -8,17 +7,9 @@ export const MovieCard = styled(motion.div)`
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s;
     border-radius: 20px;
-    /* make a nice shadow for the box */
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
-
-    &:hover {
-        transform: scale(1.05);
-    }
 `;
-
-export const MovieImage = styled(Image)``;
 
 export const MovieInfo = styled.div`
     position: absolute;

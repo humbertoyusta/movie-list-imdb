@@ -11,7 +11,7 @@ import {
 } from "./SortByRating.styled";
 import useClickOutside from "@/hooks/useClickOutside";
 
-const SortByRating = () => {
+export default function SortByRating() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -28,7 +28,9 @@ const SortByRating = () => {
 
     const handleOptionClick = (option: string) => {
         setActive(false);
-        router.push(pathname);
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set("sort", option);
+        router.push(`${pathname}?${newSearchParams.toString()}`);
     };
 
     const handleClearClick = () => {
@@ -69,6 +71,4 @@ const SortByRating = () => {
             )}
         </SortByRatingWrapper>
     );
-};
-
-export default SortByRating;
+}

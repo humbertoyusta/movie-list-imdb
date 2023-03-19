@@ -1,38 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Movie List IMDB
 
-## Getting Started
+In NextJS
 
-First, run the development server:
+## Functionalities
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- The movie list is displayed, with thumbnails, and if you hover it you see the title.
+- It is possible to sort by rating, filter by year, and search by title.
+- Each movie is linked to its own page, where you can find the details and the full picture
+- It is possible to add a movie to the favorites list, and remove it from there.
+- There is a favorites page where all the favorites movies are displayed.
+- To add a movie to the favorites list, I used NextJS APID, so the favorites are saved even if you refresh the page.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Animations
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The list of movies appear with fade in, rotate, and translate animations. (Using framer motion)
+- On hover, the movie card will scale up and show the details.
+- Loading animation when loading a full picture (Using lottie animations)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Authors
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [@humbertoyusta](https://www.github.com/humbertoyusta)

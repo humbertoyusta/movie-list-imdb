@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 
 interface MovieListProps {
     movies: IMovie[];
+    onlyFavorites?: boolean;
 }
 
-export default function MovieList({ movies }: MovieListProps) {
+export default function MovieList({ movies, onlyFavorites }: MovieListProps) {
     const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function MovieList({ movies }: MovieListProps) {
                     index={index}
                     isFavorite={favoriteIds.includes(movie.id)}
                     onToggleFavorite={() => handleToggleFavorite(movie.id)}
+                    onlyFavorites={onlyFavorites}
                 />
             ))}
         </MovieListWrapper>

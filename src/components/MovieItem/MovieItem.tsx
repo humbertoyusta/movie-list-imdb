@@ -18,6 +18,7 @@ interface IMovieItemProps {
     index: number;
     isFavorite: boolean;
     onToggleFavorite: () => void;
+    onlyFavorites?: boolean;
 }
 
 export default function MovieItem({
@@ -25,6 +26,7 @@ export default function MovieItem({
     index,
     isFavorite,
     onToggleFavorite,
+    onlyFavorites,
 }: IMovieItemProps) {
     const [ref, inView] = useInView({
         threshold: 0.1,
@@ -46,20 +48,22 @@ export default function MovieItem({
             transition={{ duration: 0.5, ease: "easeInOut" }}
         >
             <MovieLink href={`/movie/${movie.id}`} key={`${movie.id}-${index}`}>
-                <FavoritesButtonWrapper>
-                    {!isFavorite && (
-                        <FavoritesButton
-                            kind={"add"}
-                            onToggleFavorite={onToggleFavorite}
-                        />
-                    )}
-                    {isFavorite && (
-                        <FavoritesButton
-                            kind={"remove"}
-                            onToggleFavorite={onToggleFavorite}
-                        />
-                    )}
-                </FavoritesButtonWrapper>
+                {!onlyFavorites && (
+                    <FavoritesButtonWrapper>
+                        {!isFavorite && (
+                            <FavoritesButton
+                                kind={"add"}
+                                onToggleFavorite={onToggleFavorite}
+                            />
+                        )}
+                        {isFavorite && (
+                            <FavoritesButton
+                                kind={"remove"}
+                                onToggleFavorite={onToggleFavorite}
+                            />
+                        )}
+                    </FavoritesButtonWrapper>
+                )}
                 <Image
                     src={movie.thumb_url}
                     alt={movie.name}

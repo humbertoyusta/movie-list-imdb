@@ -6,7 +6,7 @@ export default function Navbar() {
             <NavbarItem key="movies" href={"/"}>
                 Movies
             </NavbarItem>
-            <NavbarItem key="favorites" href={"/"}>
+            <NavbarItem key="favorites" href={"/favorites"}>
                 Favorites
             </NavbarItem>
         </NavbarWrapper>

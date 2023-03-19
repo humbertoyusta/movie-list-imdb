@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDropdown, IoIosClose } from "react-icons/io";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
@@ -15,45 +15,59 @@ export default function SortByRating() {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [active, setActive] = useState(false);
+    const [status, setStatus] = useState<"open" | "closed" | "active">(
+        searchParams.get("sort") !== null ? "active" : "closed"
+    );
+
+    useEffect(() => {
+        setStatus(searchParams.get("sort") !== null ? "active" : "closed");
+    }, [searchParams]);
 
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     useClickOutside(wrapperRef, () => {
-        if (active) setActive(false);
+        if (status === "open") setStatus("closed");
     });
 
     const toggleDropdown = () => {
-        setActive(!active);
+        if (status === "closed") setStatus("open");
+        else if (status === "open") setStatus("closed");
     };
 
     const handleOptionClick = (option: string) => {
-        setActive(false);
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.set("sort", option);
         router.push(`${pathname}?${newSearchParams.toString()}`);
+        setStatus("active");
     };
 
     const handleClearClick = () => {
-        setActive(false);
+        if (status === "active") {
+            //setStatus("closed");
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete("sort");
+            router.push(`${pathname}?${newSearchParams.toString()}`);
+        } else if (status === "open") {
+            setStatus("closed");
+        }
     };
 
     return (
         <SortByRatingWrapper
-            active={active}
-            onClick={toggleDropdown}
+            status={status}
+            onClick={status === "active" ? handleClearClick : toggleDropdown}
             ref={wrapperRef}
         >
             <div>Sort by rating</div>
-            {active ? (
-                <DropdownIcon onClick={handleClearClick}>
-                    <IoIosClose />
-                </DropdownIcon>
-            ) : (
+            {status === "closed" ? (
                 <DropdownIcon>
                     <IoIosArrowDropdown />
                 </DropdownIcon>
+            ) : (
+                <DropdownIcon>
+                    <IoIosClose />
+                </DropdownIcon>
             )}
-            {active && (
+            {status === "open" && (
                 <DropdownWrapper>
                     <DropdownOption
                         key={"ASC"}

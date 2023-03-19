@@ -2,11 +2,14 @@
 
 import styled from "styled-components";
 
-export const SortByRatingWrapper = styled.div<{ active: boolean }>`
+export const SortByRatingWrapper = styled.div<{
+    status: "open" | "closed" | "active";
+}>`
     display: flex;
     align-items: center;
     border-radius: 20px;
-    border: 1px solid ${({ active }) => (active ? "#ccc" : "transparent")};
+    border: 1px solid
+        ${({ status }) => (status === "closed" ? "transparent" : "#ccc")};
     padding: 8px;
     cursor: pointer;
     &:hover {

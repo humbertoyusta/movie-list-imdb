@@ -1,4 +1,5 @@
 import StyledComponentsRegistry from "./registry";
+import Sidebar from "@/components/Sidebar";
 
 export const metadata = {
     title: "Movie List IMDB",
@@ -13,7 +14,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+                <StyledComponentsRegistry>
+                    <Sidebar />
+                    {children}
+                </StyledComponentsRegistry>
             </body>
         </html>
     );

@@ -1,7 +1,6 @@
 "use client";
 
 import IMovie from "@/interfaces/IMovie";
-import Image from "next/image";
 import {
     ImageWrapper,
     MovieDescription,
@@ -9,17 +8,13 @@ import {
     MovieInfoWrapper,
     MovieWrapper,
 } from "@/components/Movie/Movie.styled";
+import NextImage from "@/components/NextImage";
 
 export default function Movie({ movie }: { movie: IMovie }) {
     return (
         <MovieWrapper>
             <ImageWrapper>
-                <Image
-                    src={movie.image_url}
-                    alt={movie.name}
-                    fill
-                    sizes={"100%"}
-                />
+                <NextImage src={movie.image_url} alt={movie.name} />
             </ImageWrapper>
             <MovieInfoWrapper>
                 <MovieDescription>{movie.desc}</MovieDescription>

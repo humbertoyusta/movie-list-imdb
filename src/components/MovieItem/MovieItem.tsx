@@ -1,5 +1,6 @@
 import IMovie from "@/interfaces/IMovie";
 import {
+    FavoritesButtonWrapper,
     MovieCard,
     MovieGenres,
     MovieInfo,
@@ -10,13 +11,21 @@ import {
 } from "./MovieItem.styled";
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
+import FavoritesButton from "@/components/FavoritesButton";
 
 interface IMovieItemProps {
     movie: IMovie;
     index: number;
+    isFavorite: boolean;
+    onToggleFavorite: () => void;
 }
 
-export default function MovieItem({ movie, index }: IMovieItemProps) {
+export default function MovieItem({
+    movie,
+    index,
+    isFavorite,
+    onToggleFavorite,
+}: IMovieItemProps) {
     const [ref, inView] = useInView({
         threshold: 0.1,
         triggerOnce: true,
@@ -37,6 +46,20 @@ export default function MovieItem({ movie, index }: IMovieItemProps) {
             transition={{ duration: 0.5, ease: "easeInOut" }}
         >
             <MovieLink href={`/movie/${movie.id}`} key={`${movie.id}-${index}`}>
+                <FavoritesButtonWrapper>
+                    {!isFavorite && (
+                        <FavoritesButton
+                            kind={"add"}
+                            onToggleFavorite={onToggleFavorite}
+                        />
+                    )}
+                    {isFavorite && (
+                        <FavoritesButton
+                            kind={"remove"}
+                            onToggleFavorite={onToggleFavorite}
+                        />
+                    )}
+                </FavoritesButtonWrapper>
                 <Image
                     src={movie.thumb_url}
                     alt={movie.name}

@@ -49,3 +49,8 @@ export const MovieYear = styled.div`
 export const MovieGenres = styled.div`
     font-size: 14px;
 `;
+
+export const FavoritesButtonWrapper = styled.div`
+    position: absolute;
+    z-index: 1;
+`;

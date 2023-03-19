@@ -9,6 +9,7 @@ export default function Home() {
     const searchParams = useSearchParams();
     const yearFilter = searchParams.get("years");
     const sort = searchParams.get("sort");
+    const search = searchParams.get("search");
 
     const options: IUseMoviesProps = {};
     if (yearFilter) {
@@ -22,6 +23,12 @@ export default function Home() {
     if (sort) {
         if (sort == "ASC") options.sortByRating = "ASC";
         if (sort == "DESC") options.sortByRating = "DESC";
+    }
+    if (search) {
+        options.filters = {
+            ...options?.filters,
+            search,
+        };
     }
     const movies = useMovies(options);
 

@@ -3,6 +3,7 @@ import MovieListData from "@/data/MovieList.json";
 
 export interface IUseMoviesProps {
     filters?: {
+        search?: string;
         years?: {
             from: number;
             to: number;
@@ -24,6 +25,19 @@ export default function useMovies({ filters, sortByRating }: IUseMoviesProps) {
             return (
                 movie.year >= filters.years.from &&
                 movie.year <= filters.years.to
+            );
+        } else {
+            return true;
+        }
+    });
+
+    movies = movies.filter((movie) => {
+        if (filters?.search) {
+            return (
+                movie.name
+                    .toLowerCase()
+                    .includes(filters.search.toLowerCase()) ||
+                movie.desc.toLowerCase().includes(filters.search.toLowerCase())
             );
         } else {
             return true;

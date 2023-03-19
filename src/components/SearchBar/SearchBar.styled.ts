@@ -23,7 +23,7 @@ export const SearchBarInputStyled = styled.input`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-export const SearchBarSubmitStyled = styled.button`
+export const SearchBarSubmitStyled = styled.button<{ active: boolean }>`
     border: 1px solid #e0e0e0;
     border-left: none;
     border-top-right-radius: 30px;
@@ -33,7 +33,10 @@ export const SearchBarSubmitStyled = styled.button`
     padding-right: 30px;
     margin-left: 0;
     padding-left: 0;
-    background: #f6f6f6 url("/search-icon.svg") no-repeat 10px 50%;
+    background: #f6f6f6
+        ${({ active }) =>
+            active ? 'url("/back.svg")' : 'url("/search-icon.svg")'}
+        no-repeat 10px 50%;
 
     &:hover {
         background-color: #e6e6e6;

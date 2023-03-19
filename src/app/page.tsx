@@ -2,26 +2,31 @@
 
 import MovieList from "@/components/MoviesList";
 import SearchHeader from "@/components/SearchHeader";
-import Sidebar from "@/components/Sidebar";
-import IMovie from "@/interfaces/IMovie";
-import MovieListData from "@/data/MovieList.json";
 import { useSearchParams } from "next/navigation";
+import useMovies, { IUseMoviesProps } from "@/hooks/useMovies";
 
 export default function Home() {
     const searchParams = useSearchParams();
-
-    const movies: IMovie[] = MovieListData;
-
+    const yearFilter = searchParams.get("years");
     const sort = searchParams.get("sort");
-    if (sort === "ASC") {
-        movies.sort((a, b) => a.rating - b.rating);
-    } else if (sort === "DESC") {
-        movies.sort((a, b) => b.rating - a.rating);
+
+    const options: IUseMoviesProps = {};
+    if (yearFilter) {
+        options.filters = {
+            years: {
+                from: parseInt(yearFilter.split("-")[0]),
+                to: parseInt(yearFilter.split("-")[1]),
+            },
+        };
     }
+    if (sort) {
+        if (sort == "ASC") options.sortByRating = "ASC";
+        if (sort == "DESC") options.sortByRating = "DESC";
+    }
+    const movies = useMovies(options);
 
     return (
         <>
-            <Sidebar />
             <SearchHeader />
             <MovieList movies={movies} />
         </>

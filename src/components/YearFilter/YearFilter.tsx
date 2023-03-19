@@ -1,90 +1,73 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDropdown, IoIosClose } from "react-icons/io";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
     ButtonWrapper,
     DropdownIcon,
-    DropdownInputWrapper,
-    DropdownWrapper,
-    FilterButton,
-    FilterInput,
     YearFilterWrapper,
 } from "./YearFilter.styled";
 import useClickOutside from "@/hooks/useClickOutside";
+import { FieldValues } from "react-hook-form";
+import YearFilterForm from "@/components/YearFilterForm";
 
 const YearFilter = () => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [active, setActive] = useState(false);
-    const [fromYear, setFromYear] = useState("");
-    const [toYear, setToYear] = useState("");
+    const [status, setStatus] = useState<"active" | "open" | "closed">(
+        searchParams.get("years") !== null ? "active" : "closed"
+    );
 
     const wrapperRef = useRef<HTMLDivElement | null>(null);
     useClickOutside(wrapperRef, () => {
-        if (active) setActive(false);
+        if (status === "open") setStatus("closed");
     });
 
     const toggleDropdown = () => {
-        setActive(!active);
+        if (status === "closed") setStatus("open");
+        else if (status === "open") setStatus("closed");
     };
 
-    const handleOptionClick = () => {
-        setActive(false);
-        router.push(pathname);
+    useEffect(() => {
+        setStatus(searchParams.get("years") !== null ? "active" : "closed");
+    }, [searchParams]);
+
+    const handleFilterSubmit = ({ fromYear, toYear }: FieldValues) => {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set("years", `${fromYear}-${toYear}`);
+        router.push(`${pathname}?${newSearchParams.toString()}`);
     };
 
     const handleClearClick = () => {
-        setActive(false);
-    };
-
-    const handleInputChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        setter: React.Dispatch<React.SetStateAction<string>>
-    ) => {
-        setter(event.target.value);
+        if (status === "active") {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete("years");
+            router.push(`${pathname}?${newSearchParams.toString()}`);
+        } else if (status === "open") {
+            setStatus("closed");
+        }
     };
 
     return (
-        <YearFilterWrapper active={active} ref={wrapperRef}>
-            <ButtonWrapper onClick={toggleDropdown}>
+        <YearFilterWrapper status={status} ref={wrapperRef}>
+            <ButtonWrapper
+                onClick={
+                    status === "active" ? handleClearClick : toggleDropdown
+                }
+            >
                 <div>Filter by year</div>
-                {active ? (
-                    <DropdownIcon onClick={handleClearClick}>
-                        <IoIosClose />
-                    </DropdownIcon>
-                ) : (
-                    <DropdownIcon>
+                <DropdownIcon>
+                    {status === "closed" ? (
                         <IoIosArrowDropdown />
-                    </DropdownIcon>
-                )}
+                    ) : (
+                        <IoIosClose />
+                    )}
+                </DropdownIcon>
             </ButtonWrapper>
-            {active && (
-                <DropdownWrapper>
-                    <DropdownInputWrapper>
-                        <FilterInput
-                            type="number"
-                            placeholder="From year"
-                            value={fromYear}
-                            onChange={(event) =>
-                                handleInputChange(event, setFromYear)
-                            }
-                        />
-                        <FilterInput
-                            type="number"
-                            placeholder="To year"
-                            value={toYear}
-                            onChange={(event) =>
-                                handleInputChange(event, setToYear)
-                            }
-                        />
-                    </DropdownInputWrapper>
-                    <FilterButton onClick={handleOptionClick}>
-                        Filter
-                    </FilterButton>
-                </DropdownWrapper>
+            {status === "open" && (
+                <YearFilterForm onSubmit={handleFilterSubmit} />
             )}
         </YearFilterWrapper>
     );

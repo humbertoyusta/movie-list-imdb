@@ -13,7 +13,7 @@ export default function MovieList({ movies }: MovieListProps) {
         <MovieListWrapper>
             {movies.map((movie, index) => (
                 <MovieItem
-                    key={`${movie.name}-${index}`}
+                    key={`${movie.id}-${index}`}
                     movie={movie}
                     index={index}
                 />

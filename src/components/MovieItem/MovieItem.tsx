@@ -4,6 +4,7 @@ import {
     MovieGenres,
     MovieInfo,
     MovieInfoCard,
+    MovieLink,
     MovieRating,
     MovieYear,
 } from "./MovieItem.styled";
@@ -23,7 +24,7 @@ export default function MovieItem({ movie, index }: IMovieItemProps) {
 
     return (
         <MovieCard
-            key={`${movie.name}-${index}`}
+            key={`${movie.id}-${index}`}
             ref={ref}
             initial={{ opacity: 0, rotate: -5, x: -15, y: -15 }}
             animate={
@@ -35,20 +36,24 @@ export default function MovieItem({ movie, index }: IMovieItemProps) {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-            <Image
-                src={movie.thumb_url}
-                alt={movie.name}
-                fill
-                sizes="100% 100%"
-            />
-            <MovieInfoCard>
-                <MovieInfo>
-                    <div>{movie.name}</div>
-                    <MovieRating>Rating: {movie.rating}</MovieRating>
-                    <MovieYear>Year: {movie.year}</MovieYear>
-                    <MovieGenres>Genres: {movie.genre.join(", ")}</MovieGenres>
-                </MovieInfo>
-            </MovieInfoCard>
+            <MovieLink href={`/movie/${movie.id}`} key={`${movie.id}-${index}`}>
+                <Image
+                    src={movie.thumb_url}
+                    alt={movie.name}
+                    fill
+                    sizes="100% 100%"
+                />
+                <MovieInfoCard>
+                    <MovieInfo>
+                        <div>{movie.name}</div>
+                        <MovieRating>Rating: {movie.rating}</MovieRating>
+                        <MovieYear>Year: {movie.year}</MovieYear>
+                        <MovieGenres>
+                            Genres: {movie.genre.join(", ")}
+                        </MovieGenres>
+                    </MovieInfo>
+                </MovieInfoCard>
+            </MovieLink>
         </MovieCard>
     );
 }
